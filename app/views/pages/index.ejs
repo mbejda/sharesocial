@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+
+  </script>
+<script>
+  var socket = io.connect('http://localhost');
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+  });
+</script>
+  </head>
+  <body>
+
+
+<h3>You are logged in</h3>
+<a href="/connect/facebook">Facebook</a>
+
+
+   <form action="/coupons/create" method="post" >
+      name <input type="text" name="name"/>
+     text <input type="text" name="text"/>
+      promotion <input type="text" name="promotion"/>
+      image    <input type="text" name="image"/>
+      <input type="submit" name="submit"/>
+    </form>
+<a href="/coupon/post/" id="coupon">Coupon</a>
+
+
+
+
+
+  </body>
+</html>
