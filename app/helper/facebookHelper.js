@@ -47,10 +47,10 @@ FB.api(self.uid+'/feed', 'post', { message: self.text}, function (res) {
 
 	return {
 		setAccessToken : self.setAccessToken,
-		setText : self.setText;
+		setText : self.setText,
 		setUID : self.setUID,
 		setCouponId: self.setCoupondId,
 		postFeed : self.postFeed
 	}
 }
-export.module = FacebookModule;
+module.exports= FacebookModule;

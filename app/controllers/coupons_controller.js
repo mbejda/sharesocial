@@ -3,7 +3,7 @@ var locomotive = require('locomotive')
 var CouponsController = new Controller();
 var Account = require('../models/account');
 var passport = require('passport');
-var FB = require('../helper/facebokHelper');
+var FB = require('../helper/facebookHelper');
 
 
 var _ = function(v)
