@@ -9,6 +9,9 @@ var passport = require('passport');
 
 module.exports = function routes() {
   this.root('pages#main');
+
+   this.match('layout','pages#layout');
+
     this.match('coupon/post', 'coupons#post', { via: 'get' });
 
   this.match('coupons/create', 'coupons#create', { via: 'post' });
