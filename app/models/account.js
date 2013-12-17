@@ -2,28 +2,34 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Email = mongoose.SchemaTypes.Email;
 
-var PublisherSchema = new Schema({
-  name: { type: String},
-  token: { type: String},
-  secretToken: { type: String}
-});
 
 
-var CouponSchema = new Schema({
-  // eMail address
-  store_name: { type: String },
-  image_url : {type:String},
-  store_address : {city:{type:String}, state:{type:String}, Zip:{type:Number}},
-  store_contact : {email : {type:String},phone:{type:String}},
-  image : {title: {type:String}}
-});
+
 
 var AccountSchema = new Schema({
+  account: {type:String},
   email: { type: Email },
   name: { type: String},
-  token: { type: String },
+  token: { type: String }, //fb token
   fbId: { type: String },
-  coupons : [CouponSchema]
+  company : {
+    name : { type: String },
+    address : {
+      full : { type: String },
+      address_1 : { type: String },
+      address_2 :{ type: String },
+      city : { type: String },
+      state : { type: String },
+      country : { type: String },
+      postalCode : { type: Number }
+    },
+    phone: { type: Number },
+    fax : { type: Number },
+  }
+  sharedCoupons : [],
+  merchantCoupons : [],
+  follow:[]
+
 
 });
 
