@@ -14,7 +14,7 @@ PagesController.layout = function()
     this.render('pages/layout');
 }
 
-PagesController.main = function()
+PagesController.index = function()
 {
   this.title = 'Locomotive'
 

@@ -1,0 +1,49 @@
+<% layout('../layout/main.ejs') %>
+<div class="page-header">
+    <h1>Log In <small>log into share social to start sharing now!</small></h1>
+</div>
+
+<div class="row" style="margin: 0 auto;">
+    <div class="span8">
+        <div class="homepage-section">
+            <div class="pull-left" style="width:50%;">
+                <h2>Great Deals at Your Fingertips</h2>
+                <p>Search, Purchase and Redeem
+                Groupons directly from your
+                mobile device.</p>
+                 <div class="container-login-fb">
+                 <input type="button" class="btn primary btn-fb-login" value="LOGIN WITH FACEBOOK NOW" />
+
+                                </div>
+
+            </div>
+            <div style="position:absolute;bottom:-6px;right:20px;">
+                <i class="fa fa-users" style="font-size:45px;color:#3b5998;position:absolute;bottom:31px;right:39px;background:#fff;-webkit-border-radius: 100px;
+                                                                                                                                    -moz-border-radius: 100px;
+                                                                                                                                    border-radius: 100px;padding: 12px;"></i>
+                <i class="fa fa-mobile" style="font-size:180px;"></i>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+    </div>
+
+    <div class="span6">
+        <div class="homepage-section">
+            <h2>More Content Here</h2>
+
+            <p>Search, Purchase and Redeem
+            Groupons directly from your
+            mobile device.</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+$(document).ready(function(){
+    $('.btn-fb-login').on('click',function(){
+        document.location.href = 'login';
+    });
+});
+</script>
