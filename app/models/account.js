@@ -9,7 +9,7 @@ var AccountSchema = new Schema({
     token:      { type: String }, //fb token
     fbId:       { type: String },
     company : {
-        name :      { type: String },
+        name :       { type: String },
         address : {
             full : { type: String },
             address_1 : { type: String },
@@ -22,9 +22,10 @@ var AccountSchema = new Schema({
         phone: { type: Number },
         fax :  { type: Number }
     },
-    sharedCoupons : [],
-    merchantCoupons : [],
-    follow:[]
+    sharedCoupons : [{ type: Schema.Types.ObjectId, ref: 'Coupons' }],
+    merchantCoupons : [{ type: Schema.Types.ObjectId, ref: 'Coupons' }],
+    follow:[],
+    images : []
 });
 
 module.exports = mongoose.model('Account', AccountSchema);

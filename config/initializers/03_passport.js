@@ -2,6 +2,9 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var Account = require('../../app/models/account');
+var mongo;
+
+
 
 // Use the LocalStrategy within Passport.
 
@@ -21,21 +24,30 @@ passport.deserializeUser(function(id, done) {
 
 });
 
+
+
+
 passport.use(new FacebookStrategy({
     clientID: '417195511741678',
     clientSecret: '0f148ee79b2640adfb119dc4a0bfcd3c',
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
+    callbackURL: "/auth/facebook/callback"
       },
   function(tok, tokenSecret, profile, done) {
-
-console.log(profile)
-
 var query = Account.findOne({ 'fbId': profile.id});
       query.exec(function (err, oldUser) {
         console.log(oldUser);
         if(oldUser) {
-          console.log('User: ' + oldUser.name + ' found and logged in!');
+          oldUser.token = tok;
+          oldUser.save(function(e){
+if(e)
+{
+  console.log('passport error');
+  console.log(e)
+}
+  console.log('User: ' + oldUser.name + ' found and logged in!');
           done(null, oldUser);
+          })
+      
         } else {
           var newAccount = new Account();
           newAccount.fbId = profile.id;
