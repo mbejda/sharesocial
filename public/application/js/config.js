@@ -1,6 +1,7 @@
 require.config({
     "packages": ["models","helpers"],
     paths : {
+      bootstrap : '//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min',
     	jquery : '//cdn.jsdelivr.net/jquery/2.0.3/jquery-2.0.3.min',
     	knockout : '//cdn.jsdelivr.net/knockout/3.0.0beta/knockout',
     	imagepicker:'/vendors/image-picker/image-picker',
@@ -19,13 +20,14 @@ require.config({
     }
 });
 
-require(["jquery","knockout","models","helpers","imagepicker","datepicker"], function ($,ko,models,helpers,imagepicker,datepicker) {
+require(["jquery","knockout","models","helpers","imagepicker","datepicker","bootstrap"], function ($,ko,models,helpers,imagepicker,datepicker,bootstrap) {
 
 
 
     // Initialize instances:
 var couponObject = helpers.couponObject;
 var ajaxObject = helpers.ajaxObject;
+
 
 
 
@@ -45,9 +47,36 @@ function toJson(inputs)
   return o;
 }
 
+
+
+
+
+
+
+
+
+
 $(document).ready(function(){
 
-    // Initialize instances:
+var app = {
+  user : ko.observable({name:''}),
+  coupons : new models.couponModel(),
+  images : ko.observableArray([]),
+   test :function(elem) 
+   { if (elem.nodeType === 1) {
+    $(elem).hide().fadeIn() 
+  }
+},
+     test2 :function(elem) 
+   { if (elem.nodeType === 1) {
+    $(elem).fadeOut();
+  }
+}
+
+
+}
+
+
 
 function shipOff(event) {
     var result = event.target.result;
@@ -64,7 +93,7 @@ $.ajax({
 if(result.type === "success")
 {
 console.log(result.image)
-window.app.images.push(result.image);
+app.images.push(result.image);
 
 }
 $(".imagepicker").unbind('imagepicker')
@@ -99,39 +128,9 @@ reader.onload = shipOff;
 
 
 
-
-        
-})
+  ko.applyBindings(app); 
 
 
-
-
-
-
-
-
-var app = {
-  user : ko.observable({name:''}),
-  coupons : new models.couponModel(),
-  images : ko.observableArray([]),
-   test :function(elem) 
-   { if (elem.nodeType === 1) {
-    $(elem).hide().fadeIn() 
-  }
-},
-     test2 :function(elem) 
-   { if (elem.nodeType === 1) {
-    $(elem).fadeOut();
-  }
-}
-
-
-}
-
-ko.applyBindings(app); 
-
-
-$(document).ready(function(){
   if(window.userArray != undefined)
   {
 app.user(userArray);
@@ -147,10 +146,10 @@ $.post('image/delete',{data: {object:'image',value:image}},function(response){
   {
    var name =  image.split('/').pop()
    console.log(name)
-  window.app.images.remove(name)
-  console.log(window.app.images())
+  app.images.remove(name)
+  console.log(app.images())
     var picker = $(".imagepicker").imagepicker({
-    clicked : window.getImage
+    clicked : getImage
   })
 
 }
