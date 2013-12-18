@@ -25,10 +25,11 @@ var AccountSchema = new Schema({
     },
     phone: { type: Number },
     fax : { type: Number },
-  }
-  sharedCoupons : [],
-  merchantCoupons : [],
-  follow:[]
+  },
+  sharedCoupons : [{ type: Schema.Types.ObjectId, ref: 'Coupons' }],
+  merchantCoupons : [{ type: Schema.Types.ObjectId, ref: 'Coupons' }],
+  follow:[],
+  images : []
 
 
 });

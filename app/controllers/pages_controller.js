@@ -3,108 +3,194 @@ var locomotive = require('locomotive')
 
 var PagesController = new Controller();
 var SocketIOFileUploadServer = require('socketio-file-upload');
+var ss = require('socket.io-stream');
+
 var md5 = require('MD5');
 var fs = require('fs');
 var Account = require('../models/account');
 var express = require('express');
 var sioCookieParser = express.cookieParser('cat');
+var couponHelper = require('../helper/couponHelper');
+var Async = require('async');
+var couponModel = require('../models/coupon');
+var fs = require('fs');
+var path = require('path');
 
+function loadCreatedCoupons(array,callback)
+{
+		couponModel.find({ 
+			'_id': {
+				$in:array
+			}
+		}, function(e,r){
+			callback(e,r)
+		})
 
-PagesController.main = function() {
-  this.title = 'Locomotive'
+}
+PagesController.delete = function() {
+	var self= this;
+var data = this.param('data');
+var p = data.value;
+var name = path.basename(p);
+Account.update({'_id':this.req.user._id},{ $pull: { images: name  } }, function(e,r){
 
+  if(fs.existsSync('./public/'+p))
+  {
+  	console.log('delete')
+  	fs.unlinkSync('./public/'+p)
+  }
 
-
-console.log(this.req.user)
-
-
-console.log("========cokies-----------")
-  var self = this;
-
-
-  this.app.io.sockets.on('connection', function (socket) {
-
-   var cookie_string = self.req.session;
-
-console.log('-------')
-
-    console.log("WebSocket Connected");
-        // Make an instance of SocketIOFileUploadServer and listen on this socket:
-    var uploader = new SocketIOFileUploadServer();
-  uploader.dir = "./server/coupons";
-    uploader.mode = "0666"
-    uploader.listen(socket);
-
-    uploader.on("start", function(event){
-
-       
-        var old_name = event.file.name
-        var arr = old_name.split('.');
-        var new_name = md5(arr[0])+'.'+arr[arr.length - 1];
-
-
-
-
-
-
-
-
-
-        return event.file.name = new_name;
-
-    }); 
-
-       uploader.on("saved", function(event){
-console.log("=============usaving ser==========")
-
-    	var user = cookie_string.passport.user;
-console.log(user)
-    	  Account.findOne({email : user.email}, function(err, user) {
-    if (err) { return next(err) }
-    user.coupons.push({image : event.file.name});
-user.save(function(e){
 	console.log(e)
-	console.log('saved')
+	console.log(r)
+	self.res.send({type:'success',message:'File deleted'})
 })
 
 
-  });
-
-
-console.log("=============usaving ser==========")
 
 
 
-    });
-  uploader.on("error", function(event){
-        console.log("Error from uploader", event);
-    });
 
-
-  });
-
-
-
-  this.render();
 
 
 }
-
-PagesController.before('*', function(next) {
-  var self = this;
-  var u = self.req.user;
-  if(u != undefined && u.email != undefined)
+PagesController.upload = function() {
+var self = this;
+var root = this.req.files;
+var safeName;
+  var tmp_path = root.file.path;
+  var nameArray = root.file.originalFilename.split('.');
+ safeName = md5(nameArray[0])+'.'+nameArray[1];
+  var target_path = './public/coupons/' + safeName;
+  if(fs.existsSync(target_path))
   {
-  Account.findOne({email : u.email}, function(err, user) {
-    if (err) { return next(err) }
-    self.u = user;
-    next();
-  });
-}else{
+  	fs.unlinkSync(target_path)
+  }
+  fs.rename(tmp_path, target_path, function(err) {
+    if (err) throw err;
+    fs.unlink(tmp_path, function() {
+    if (err) throw err;
 
-	 next();
-}
+        });
+
+
+
+    Account.update({'_id': self.req.user._id},{$addToSet: {images:safeName}},function(err,results){
+        if(err){
+                console.log(err);
+        }else{
+
+console.log(results)
+self.res.send({type:'success',image:safeName});
+
+
+        }
 });
+
+
+
+
+    });
+
+
+
+}
+PagesController.sharedCoupons = function() {
+
+
+
+
+}
+PagesController.allCoupons = function() {
+
+
+
+
+}
+PagesController.main = function() {
+	if(!this.req.user)
+	{
+
+			  this.render();
+			  return;
+
+	}
+	var uid = this.req.user._id;
+	var self = this;
+this.app.io.sockets.on("connection", function(socket){
+
+
+
+
+
+
+
+/*
+
+    var uploader = new SocketIOFileUploadServer();
+    uploader.dir = "./public/coupons";
+    var publicDirectory = "./coupons";
+    uploader.listen(socket);
+
+
+    uploader.on("complete", function(event){
+console.log('complete')
+console.log(event)
+    })
+
+    uploader.on("saved", function(event){
+
+
+	var name = path.basename(event.file.pathName);
+
+console.log('BASE FILE NAME '+name )
+
+
+
+
+
+
+
+
+    Account.update({'_id': self.req.user._id},{$addToSet: {images:name}},function(err,results){
+        if(err){
+                console.log(err);
+        }else{
+                console.log("Successfully added");
+                 socket.emit('loadImages', { images: name});
+
+        }
+});
+
+    });
+
+
+*/
+
+});
+
+
+
+
+self.coupons = [];
+if(self.req.user)
+{ 
+	var user = self.req.user;
+	self.user = user;
+
+	Async.series([
+		loadCreatedCoupons.bind(this,self.user.merchantCoupons),
+
+		], function(e,r){
+	self.merchantCoupons = r;
+	  self.render();
+
+		})
+}
+
+
+
+}
+
 
 
 

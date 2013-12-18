@@ -29,6 +29,8 @@
     "connect-mongo": "~0.4.0",
     "connect-mongostore": "0.0.10",
     "connect-session-mongo": "0.0.9",
-    "connect-session-file": "~1.0.4"
+    "connect-session-file": "~1.0.4",
+    "async": "~0.2.9",
+    "mongoose-paginate": "~0.1.5"
   }
 }

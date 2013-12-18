@@ -9,6 +9,8 @@ var SocketIOFileUploadServer = require('socketio-file-upload');
 
 var connect = require('connect');
 var mongoStore = require('connect-mongo')(express);
+var EventEmitter = require('events').EventEmitter;
+var emitter = new EventEmitter();
 
 
 //Setup cookie and session handlers
@@ -51,6 +53,10 @@ module.exports = function() {
   this.use(poweredBy('Locomotive'));
   this.use(express.logger());
   this.use(SocketIOFileUploadServer.router);
+  this.use(function(res,req,next){
+     req.emitter = emitter;
+  next();
+  })
    
 
 

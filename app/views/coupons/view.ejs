@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<meta property="og:url" content="http://url.com/" />
+<meta property="og:site_name" content="ShareSocial.com" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="<%= coupon.store_name %>" />
+<meta property="og:image" content="http://url.com/logo.png" />
+<meta property="og:description" content="<%= coupon.promotion %>" />
+<meta property="fb:app_id" content="7363627862327638" />
+
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+
+      <script type="text/javascript" src="//cdn.jsdelivr.net/knockout/3.0.0beta/knockout.js"></script>
+
+
+<script>
+
+
+
+
+</script>
+  </head>
+  <body>
+    <h1>Grid</h1>
+    <a><img style="width:300px; height:300px;" src="/coupons/<%= coupon.image %>"/></a>
+    <h3>Restaurant Name : <%= coupon.store_name %></h3>
+    <a>Start Date : <%= coupon.start_date %></a> | <a>End Date : <%= coupon.end_date %></a>
+    <a>
+<b>Promotion : </b>
+
+<% if (coupon.promotion ) { %>
+  <p><%= coupon.promotion  %></p>
+<% } %>
+
+
+
+
+
+  </body>
+</html>

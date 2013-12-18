@@ -9,11 +9,7 @@ var FacebookModule = function(user)
 	self.uid;
 	self.coupondId;
 	self.text;
-	if(user)
-	{
-		self.setAccessToken(user.token);
-		self.setUID(user.fbId);
-	}
+
 
 	self.setAccessToken = function(token)
 	{
@@ -31,19 +27,27 @@ var FacebookModule = function(user)
 		self.uid = uid;
 		return self;
 	}
-	self.postFeed = function()
+	self.postFeed = function(cb)
 	{
 
 FB.api(self.uid+'/feed', 'post', { message: self.text}, function (res) {
   if(!res || res.error) {
     console.log(!res ? 'error occurred' : res.error);
+cb(res,null)
     return;
   }
-  console.log('Post Id: ' + res.id);
+ cb(null,res);
 });
 
 
 	}
+		if(user)
+	{
+		self.setAccessToken(user.token);
+		self.setUID(user.fbId);
+	}
+
+	
 
 	return {
 		setAccessToken : self.setAccessToken,

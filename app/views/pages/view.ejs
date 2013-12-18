@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+
+    <script src="http://localhost:3003/siofu/client.js"></script>
+      <script src="http://localhost:3003/socket.io/socket.io.js"></script>
+      <script type="text/javascript" src="//cdn.jsdelivr.net/knockout/3.0.0beta/knockout.js"></script>
+<script type="text/javascript" src="http://knockoutjs.com/examples/resources/knockout.simpleGrid.3.0.js"></script>
+
+
+<script>
+
+
+  document.addEventListener("DOMContentLoaded", function(){
+
+    // Initialize instances:
+  var socket = io.connect('http://localhost:3003');
+    var siofu = new SocketIOFileUpload(socket);
+
+    // Configure the three ways that SocketIOFileUpload can read files:
+    document.getElementById("upload_btn").addEventListener("click", siofu.prompt, false);
+    siofu.listenOnInput(document.getElementById("upload_input"));
+    siofu.listenOnDrop(document.getElementById("file_drop"));
+
+    // Do something when a file is uploaded:
+    siofu.addEventListener("complete", function(event){
+        console.log(event.success);
+        console.log(event.file);
+    });
+
+}, false);
+
+
+
+var userArray = <%- JSON.stringify(user) %>
+var couponsArray = <%- JSON.stringify(coupons) %>
+
+</script>
+  </head>
+  <body>
+<script>
+
+
+
+</script>
+COUPON
+    <p><button id="upload_btn">Prompt for File</button></p>
+<p><label>Choose File: <input type="file" id="upload_input"/></label></p>
+<div id="file_drop" dropzone="copy" title="drop files for upload">Drop File</div>
+share coupons
+<a href="/coupon/post" id="coupon">view coupons</a>
+
+
+
+
+<h3>Create Coupon</h3>
+
+    <div class="coupon-container" >
+    	store name <input type="text" name="store_name"/>
+      start date <input type="text" name="start_date"/>
+      end date <input type="text" name="end_date"/>
+
+    	<a href="#" class='add-coupon'>Add</a>
+    </div>
+
+
+    <h3>Login</h3>
+ <a href="/login">Login With Facebook</a>
+
+
+
+
+ <ul data-bind="foreach: coupons.all()">
+  <!-- ko if: $data.store_name  -->
+  <li><a href="#" data-bind="click: $parent.coupons.view"><span data-bind="text:store_name"></span></a> |
+
+    <a href="#" class="delete-coupon" data-bind="click: $parent.coupons.delete">Delete</a> | 
+    <a href="#" class="share-coupon" data-bind="click: $parent.coupons.share">Share</a> 
+
+  </li>
+  <!-- /ko -->
+
+
+</ul>
+
+
+
+<script>
+var ajaxHelper = function() {
+    var self = this;
+    self.url = "";
+    self.type = "POST";
+    self.data = {};
+    self.dataType = 'json';
+    self.beforeSend = '';
+    self.always = '';
+
+    this.setUrl = function(u)
+    {
+        self.url = u;
+        return self;
+    }
+    this.setType = function(t)
+    {
+        self.type = t;
+
+        return self;
+
+    }
+    this.setDataType = function(t)
+    {
+        self.dataType = t;
+
+        return this;
+
+    }
+    this.setData = function(data)
+    {
+      console.log(data)
+        self.data = {data : data};
+        return self;
+    }
+    this.setBeforeSend = function(cb)
+    {
+        self.beforeSend = cb;
+        return self;
+    }
+    this.setAlways = function(cb)
+    {
+        self.always = cb;
+        return self;
+    }
+    this.formToJSON = function(selector)
+    {
+        var form = {};
+        $(selector).find('input').each( function() {
+            var self = $(this);
+            var name = self.attr('name');
+            if (form[name]) {
+                form[name] = form[name] + ',' + self.val();
+            }
+            else {
+                form[name] = self.val();
+            }
+        });
+
+        return form;
+    }
+
+    this.go = function(){
+        return $.ajax({
+            url : self.url,
+            type: self.type,
+            data : self.data,
+            dataType : self.dataType,
+        });
+    };
+    return this;
+};
+
+function toJson(inputs)
+{
+      var o = {};
+  var obj = $.map(inputs, function(n, i)
+{
+    o[n.name] = $(n).val();
+});
+  return o;
+}
+
+var couponObject = {
+  create : function(couponData)
+  {
+    var ajax = new ajaxHelper();
+    return ajax.setData(couponData).setUrl('/coupon/create').go();
+
+  },
+  delete : function(couponId)
+  {
+var ajax = new ajaxHelper();
+var ajaxObject = ajax.setData({cid:couponId}).setUrl('/coupon/delete').go();
+console.log(couponId)
+ajaxObject.success = function(r)
+{
+  console.log(r)
+}
+
+
+
+  },
+  share : function(couponId)
+  {
+    var ajax = new ajaxHelper();
+    return ajax.setType('post').setData({cid:couponId}).setUrl('/coupon/share').go();
+
+  },
+  get  : function(query)
+  {
+    var ajax = new ajaxHelper();
+
+    return ajax.setType('get').setData(query).setUrl('/coupon/get').go();
+
+  }
+}
+
+
+
+var coupons = function(){
+  var self = this;
+  self.all = ko.observableArray([]);
+  self.like = function()
+  {
+
+  }
+  self.view = function()
+  {
+    
+  var win=window.open('/coupon/view/'+this._id, '_blank');
+  win.focus();
+  }
+  self.share = function()
+  {
+    var obj = this;
+    var cid = obj['_id'];
+    console.log(cid)
+    var ajaxObject = couponObject.share(cid);
+    ajaxObject.success(function(r)
+    {
+      console.log('Shared!')
+      console.log(r)
+    })
+  }
+  self.delete = function()
+  {
+    var obj = this;
+    var cid = obj['_id'];
+    couponObject.delete(cid);
+
+    self.all.remove(this);
+
+  };
+
+
+}
+
+var app = {
+  user : ko.observable(),
+  coupons : new coupons()
+    
+
+}
+ko.applyBindings(app); 
+
+$(document).ready(function(){
+
+
+$('.add-coupon').on('click',function(){
+  var arr = $(this).parents('.coupon-container').find('input');
+var j = toJson(arr);
+console.log('click')
+var ajaxObject = couponObject.create(j);
+ajaxObject.success(function(ret)
+{
+console.log('succuess')
+loadCoupons();
+});
+
+
+});
+
+
+
+function loadCoupons()
+{
+var ajaxObject = couponObject.get({action:'loadUserCoupons'});
+ajaxObject.success(function(ret)
+{
+app.coupons.all(ret.results)
+})
+}
+loadCoupons();
+})
+</script>
+  </body>
+</html>

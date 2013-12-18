@@ -4,7 +4,8 @@ var CouponsController = new Controller();
 var Account = require('../models/account');
 var passport = require('passport');
 var FB = require('../helper/facebookHelper');
-
+var couponHelper = require('../helper/couponHelper');
+var userHelper = require('../helper/userHelper');
 
 var _ = function(v)
 {
@@ -13,6 +14,42 @@ var _ = function(v)
 		console.log('====================')
 
 }
+CouponsController.view = function() {
+  var self = this;
+var cid = this.param('id');
+var couponH = new couponHelper();
+couponH.where({'_id': cid}).findOne(function(e,r){
+self.coupon = r;
+self.render();
+
+})
+}
+CouponsController.share = function() {
+  var self = this;
+  var data = this.param('data');
+  var user = this.req.user;
+  var FBHelper = new FB(user);
+  var couponH = new couponHelper();
+
+  couponH.where({'_id': data.cid}).findOne(function(e,r){
+  FBHelper.setText(r.promotion).postFeed(function(e,r){
+    var user = self.user.model();
+    user.sharedCoupons.push(data.cid);
+  user.save(function(e)
+    {
+console.log(e)
+self.res.send({message:'success',coupon:data.cid})
+
+    });
+
+
+
+
+
+  })
+})
+}
+
 CouponsController.index = function() {
 	
   this.title = 'Account'
@@ -24,30 +61,76 @@ CouponsController.new = function() {
   this.render();
 }
 CouponsController.post = function() {
-  var user = this.req.user;
+  /*var user = this.req.user;
   var FBUser = new FB(user);
-  FBUser.setText('test')
-  FBUser.postFeed();
+ // FBUser.setText('test')
+  //FBUser.postFeed();
+var couponHelper = new CouponHelper();
+couponHelper.set('store_name','test').createCoupon(function(r){
 
 
+})
+*/
 
-
-
-
-
+var self = this;
+console.log(self.user.model());
 this.redirect('/');
 }
 
-CouponsController.create = function() {
-	var self = this;
-self.u.coupons.push({store_name:'STORE NAME'})
-self.u.save(function(e){
-	console.log(e)
-	console.log("SAVED COUPON")
-self.redirect('/account');
-})
+CouponsController.create = function() 
+{
+  var self = this;
+
+  var data = this.param('data');
+  data['uid'] = this.req.user._id;
+  var couponH = new couponHelper();
+  couponH.addToUser(data['uid']).create(data,function(e,coupon){
+    console.log(e)
+    console.log('created coupon')
+    console.log(coupon)
+    self.res.send({response:'success',object:coupon})
+  })
+}
+CouponsController.get = function() {
+  var self = this;
+  var merchantCoupons = self.req.user.merchantCoupons;
+  var sharedCoupons = self.req.user.sharedCoupons;
+
+
+  var data = this.param('data');
+  var action = data.action;
+  if(action == 'loadCreatedCoupons')
+  {
+  var couponH = new couponHelper();
+  couponH.loadUserCoupons(merchantCoupons,function(err,res){
+console.log(err)
+  self.res.send({results:res})
+  })
+}
+  if(action == 'loadSharedCoupons')
+  {
+    console.log('SHARED')
+    console.log(sharedCoupons)
+  var couponH = new couponHelper();
+  couponH.loadSharedCoupons(sharedCoupons,function(err,res){
+    console.log(err)
+  self.res.send({results:res})
+  })
+}
+  if(action == 'loadAllCoupons')
+  {
+  var couponH = new couponHelper();
+  couponH.limit(100).loadAllCoupons(function(err,res){
+console.log(err)
+  self.res.send({results:res})
+  })
+}
+
+
 
 }
+
+
 CouponsController.show = function() {
 	
   this.title = 'Account'
@@ -64,39 +147,22 @@ CouponsController.update = function() {
   this.render();
 }
 CouponsController.delete = function() {
-	var id = this.param('id')
-		console.log("coupon id =============")
-var self = this;
-	console.log(id)
-	Account.findOne({'email':self.u.email},function(e,doc){
+	var data = this.param('data')
+  var cid = data.cid;
+  var couponH = new couponHelper();
+  couponH.where({'_id':cid}).remove(function(){
+    console.log('removed')
+  })
 
 
-    for(var i=0; i<=doc.coupons.length; i++){
-        if (doc.coupons[i]._id == id){
-        	console.log("FOUNDDDDDDD")
-            doc.coupons.splice(i,1);
-            break;                          
-        }
-    }
- doc.save(function(e){
- 	console.log('saved')
- })
-
-	})
-
-
-	console.log("coupon id =============")
-  this.title = 'Account'
-  this.redirect('/account');
 }
 CouponsController.before('*', function(next) {
   var self = this;
   var u = self.req.user;
-  Account.findOne({email : u.email}, function(err, user) {
-    if (err) { return next(err) }
-    self.u = user;
+  self.user = new userHelper(u, function(){
     next();
   });
+
 });
 
 

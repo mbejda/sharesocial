@@ -1,0 +1,10 @@
+  <div class="row">                  
+  <div class="span12">
+    <% if(typeof(user)  == 'undefined') {%>
+    <h3>Login</h3>
+ <a href="/login">Login With Facebook</a>
+ <% }else{ %>
+<div data-bind="text: user().name"></div>
+  <% } %>
+</div>
+</div>

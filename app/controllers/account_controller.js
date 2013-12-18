@@ -1,6 +1,6 @@
 var locomotive = require('locomotive')
   , Controller = locomotive.Controller;
-var AccountsController = new Controller();
+var AccountController = new Controller();
 var Account = require('../models/account');
 var passport = require('passport');
 var Facebook = require('facebook-node-sdk');
@@ -19,7 +19,7 @@ var _ = function(v)
 		console.log('====================')
 
 }
-AccountsController.main = function() {
+AccountController.main = function() {
 	var self = this;
 	
   this.title = 'Account'
@@ -39,7 +39,7 @@ this.render();
 
 
 }
-AccountsController.index = function() {
+AccountController.index = function() {
 	/*
 _("login")
 var self = this;
@@ -88,11 +88,11 @@ FB.api('me/share_social:share', 'post', { coupon: 'http://samples.ogp.me/4172646
 
   this.render('pages/index');
 }
-AccountsController.login = function()
+AccountController.login = function()
 {
 
 }
-AccountsController.facebook = function()
+AccountController.facebook = function()
 {
   this.title = 'index'
 console.log('facebook')
@@ -103,7 +103,7 @@ console.log('facebook')
 
 
 
-AccountsController.register = function()
+AccountController.register = function()
 {
 	var self = this;
 	_(this.param('password'))
@@ -127,4 +127,4 @@ AccountsController.register = function()
 
 
 
-module.exports = AccountsController;
+module.exports = AccountController;
