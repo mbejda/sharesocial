@@ -1,4 +1,4 @@
-define(['jquery','knockout'],function ($,ko) {
+define(['jquery','knockout','../helpers/coupon'],function ($,ko,couponObject) {
 var couponsModel = function(){
   var self = this;
   self.sharedCoupons = ko.observableArray([]);

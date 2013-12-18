@@ -2,8 +2,7 @@ var locomotive = require('locomotive')
   , Controller = locomotive.Controller;
 
 var PagesController = new Controller();
-var SocketIOFileUploadServer = require('socketio-file-upload');
-var ss = require('socket.io-stream');
+
 
 var md5 = require('MD5');
 var fs = require('fs');
@@ -116,58 +115,6 @@ PagesController.main = function() {
 	}
 	var uid = this.req.user._id;
 	var self = this;
-this.app.io.sockets.on("connection", function(socket){
-
-
-
-
-
-
-
-/*
-
-    var uploader = new SocketIOFileUploadServer();
-    uploader.dir = "./public/coupons";
-    var publicDirectory = "./coupons";
-    uploader.listen(socket);
-
-
-    uploader.on("complete", function(event){
-console.log('complete')
-console.log(event)
-    })
-
-    uploader.on("saved", function(event){
-
-
-	var name = path.basename(event.file.pathName);
-
-console.log('BASE FILE NAME '+name )
-
-
-
-
-
-
-
-
-    Account.update({'_id': self.req.user._id},{$addToSet: {images:name}},function(err,results){
-        if(err){
-                console.log(err);
-        }else{
-                console.log("Successfully added");
-                 socket.emit('loadImages', { images: name});
-
-        }
-});
-
-    });
-
-
-*/
-
-});
-
 
 
 

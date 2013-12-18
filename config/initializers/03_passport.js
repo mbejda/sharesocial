@@ -2,6 +2,9 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var Account = require('../../app/models/account');
+var mongo;
+
+
 
 // Use the LocalStrategy within Passport.
 
@@ -21,10 +24,13 @@ passport.deserializeUser(function(id, done) {
 
 });
 
+
+
+
 passport.use(new FacebookStrategy({
     clientID: '417195511741678',
     clientSecret: '0f148ee79b2640adfb119dc4a0bfcd3c',
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
+    callbackURL: "/auth/facebook/callback"
       },
   function(tok, tokenSecret, profile, done) {
 var query = Account.findOne({ 'fbId': profile.id});

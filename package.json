@@ -1,7 +1,12 @@
 {
-  "name": "app-name",
+  "name": "sharesocial",
   "version": "0.0.1",
   "private": true,
+    "scripts": {
+    "start": "node ./server.js",
+    "predeploy": "echo This will be run before deploying the app",
+    "postdeploy": "echo This will be run after deploying the app"
+  },
   "dependencies": {
     "locomotive": "0.3.x",
     "express": "3.x.x",
