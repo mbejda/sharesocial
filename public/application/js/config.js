@@ -17,6 +17,10 @@ require.config({
             deps: ['jquery'],
             exports: 'datepicker'
         },
+        'bootstrap': {
+                 deps: ['jquery'],
+            exports: 'bootstrap' 
+        }
     }
 });
 
