@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ShareSocial</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" />
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+    <script src="http://localhost:3003/siofu/client.js"></script>
+    <script src="http://localhost:3003/socket.io/socket.io.js"></script>
+    <script type="text/javascript" language="javascript">
+
+      document.addEventListener("DOMContentLoaded", function(){
+            // Initialize instances:
+            var socket = io.connect('http://localhost:3003');
+            var siofu = new SocketIOFileUpload(socket);
+
+            // Configure the three ways that SocketIOFileUpload can read files:
+            document.getElementById("upload_btn").addEventListener("click", siofu.prompt, false);
+            siofu.listenOnInput(document.getElementById("upload_input"));
+            siofu.listenOnDrop(document.getElementById("file_drop"));
+
+            // Do something when a file is uploaded:
+            siofu.addEventListener("complete", function(event){
+                console.log(event.success);
+                console.log(event.file);
+            });
+      }, false);
+
+        var socket = io.connect('http://localhost');
+        socket.on('news', function (data) {
+          console.log(data);
+          socket.emit('my other event', { my: 'data' });
+        });
+
+      $(document).ready(function() {
+          var isLoaded = false;
+          $.ajaxSetup({ cache: true });
+          $.getScript('//connect.facebook.net/en_US/all.js', function(){
+              FB.init({
+                appId: '417195511741678',
+              });
+              isLoaded = true;
+          });
+      });
+
+
+    </script>
+</head>
+
+<body>
+    <div class="topbar">
+
+        <div class="fill header">
+            <div class="container">
+                <a class="brand" href="#">Share Social</a>
+                <ul class="nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+
+                <div class="scissors"></div>
+            </div>
+        </div>
+
+        <div class="subheader">
+            <div class="page-curl"></div>
+        </div>
+
+    </div>
+    <!-- start: container -->
+    <div class="container">
+        <div class="content">
+            <%- body %>
+        </div>
+        <footer>
+            <p>&copy; Share Social 2013. All Rights Reserved.</p>
+        </footer>
+    </div>
+    <!-- end:container -->
+
+    </body>
+</html>

@@ -2,7 +2,7 @@
   "name": "sharesocial",
   "version": "0.0.1",
   "private": true,
-    "scripts": {
+  "scripts": {
     "start": "node ./server.js",
     "predeploy": "echo This will be run before deploying the app",
     "postdeploy": "echo This will be run after deploying the app"

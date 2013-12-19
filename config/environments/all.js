@@ -56,8 +56,12 @@ module.exports = function() {
   this.set('view engine', 'ejs');
 
   // Register EJS as a template engine.
-  this.engine('ejs', require('ejs').__express);
-  this.format('html', { extension: '.ejs' });
+ // this.engine('ejs', require('ejs').__express);
+
+    this.engine('ejs', require('ejs-locals'));
+    this.format('html', { extension: '.ejs' });
+
+
 
   // Override default template extension.  By default, Locomotive finds
   // templates using the `name.format.engine` convention, for example
