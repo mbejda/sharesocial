@@ -11,32 +11,7 @@ var mongoStore = require('connect-mongo')(express);
 var EventEmitter = require('events').EventEmitter;
 var emitter = new EventEmitter();
 
-if(process.env.VCAP_SERVICES){
-var env = JSON.parse(process.env.VCAP_SERVICES);
-var mongo = env['mongodb-1.8'][0]['credentials'];
-}
-else{
-var mongo = {
-"hostname":"localhost",
-"port":27017,
-"username":"",
-"password":"",
-"name":"",
-"db":"db"
-}
-}
-var generate_mongo_url = function(obj){
-obj.hostname = (obj.hostname || 'localhost');
-obj.port = (obj.port || 27017);
-obj.db = (obj.db || 'test');
-if(obj.username && obj.password){
-return "mongodb://" + obj.username + ":" + obj.password + "@" + obj.hostname + ":" + obj.port + "/" + obj.db;
-}
-else{
-return "mongodb://" + obj.hostname + ":" + obj.port + "/" + obj.db;
-}
-}
-var mongourl = generate_mongo_url(mongo);
+
 
 
 //Setup cookie and session handlers
@@ -86,17 +61,16 @@ module.exports = function() {
      req.emitter = emitter;
   next();
   })
-   
+  
 
 
   this.use(express.cookieParser());
   this.use(express.bodyParser());
   this.use(passport.initialize());
     this.use(express.session({
-        secret: 'cat',
-        store: new mongoStore({url: mongourl+"/sessions", clear_interval:3600})
+        secret: 'cat', 
+        store: new mongoStore({url:'mongodb://appfog:079f40455c53f148cee689516ff7e638@alex.mongohq.com:10012/sharesocial_milo/sessions', clear_interval:3600})
     }))
-
 
     this.use(poweredBy('Locomotive'));
     this.use(express.logger());
