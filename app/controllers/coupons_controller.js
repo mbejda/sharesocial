@@ -31,8 +31,9 @@ CouponsController.share = function() {
   var FBHelper = new FB(user);
   var couponH = new couponHelper();
 
+
   couponH.where({'_id': data.cid}).findOne(function(e,r){
-  FBHelper.setText(r.promotion).postFeed(function(e,r){
+  FBHelper.setText(r.link).postFeed(function(e,r){
     var user = self.user.model();
     user.sharedCoupons.push(data.cid);
   user.save(function(e)

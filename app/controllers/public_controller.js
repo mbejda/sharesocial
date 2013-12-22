@@ -19,7 +19,6 @@ PublicController.index = function()
   this.title = 'Locomotive'
 
     console.log(this.req.user);
-    console.log("========cokies-----------")
     var self = this;
 
 
