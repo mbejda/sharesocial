@@ -22,47 +22,6 @@
     <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
-    <script src="http://localhost:3003/siofu/client.js"></script>
-    <script src="http://localhost:3003/socket.io/socket.io.js"></script>
-    <script type="text/javascript" language="javascript">
-
-      document.addEventListener("DOMContentLoaded", function(){
-            // Initialize instances:
-            var socket = io.connect('http://localhost:3003');
-            var siofu = new SocketIOFileUpload(socket);
-
-            // Configure the three ways that SocketIOFileUpload can read files:
-            document.getElementById("upload_btn").addEventListener("click", siofu.prompt, false);
-            siofu.listenOnInput(document.getElementById("upload_input"));
-            siofu.listenOnDrop(document.getElementById("file_drop"));
-
-            // Do something when a file is uploaded:
-            siofu.addEventListener("complete", function(event){
-                console.log(event.success);
-                console.log(event.file);
-            });
-      }, false);
-
-        var socket = io.connect('http://localhost');
-        socket.on('news', function (data) {
-          console.log(data);
-          socket.emit('my other event', { my: 'data' });
-        });
-
-      $(document).ready(function() {
-          var isLoaded = false;
-          $.ajaxSetup({ cache: true });
-          $.getScript('//connect.facebook.net/en_US/all.js', function(){
-              FB.init({
-                appId: '417195511741678',
-              });
-              isLoaded = true;
-          });
-      });
-
-
-    </script>
 </head>
 
 <body>
