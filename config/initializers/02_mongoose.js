@@ -1,11 +1,8 @@
-var winston = require('../../app/helper/logger');
-var logger = winston.loggers.get('databaseLogger');
-
 module.exports = function() 
 {
 var mongoose = require('mongoose');
 
-logger.info('Stage Environment '+process.env.NODE_ENV)
+console.log('Stage Environment '+process.env.NODE_ENV)
   switch (process.env.NODE_ENV) {
     case 'development':
       mongoose.connect('mongodb://127.0.0.1:27017/sharesocial/accounts');
