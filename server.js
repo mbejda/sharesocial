@@ -1,6 +1,6 @@
 var locomotive = require('locomotive'),
         env = 'production',
-        port = process.env.PORT  || 3000,
+        port = process.env.PORT || 3000,
         address = '0.0.0.0';
 
 locomotive.boot(__dirname, env, function(err, server) {
