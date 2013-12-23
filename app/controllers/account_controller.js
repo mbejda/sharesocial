@@ -25,7 +25,6 @@ AccountController.main = function() {
   this.title = 'Account'
 
 
-console.log(this.req.user)
 
 
 

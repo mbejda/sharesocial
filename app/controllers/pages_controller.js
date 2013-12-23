@@ -12,8 +12,13 @@ var sioCookieParser = express.cookieParser('cat');
 var couponHelper = require('../helper/couponHelper');
 var Async = require('async');
 var couponModel = require('../models/coupon');
+
 var fs = require('fs');
 var path = require('path');
+
+
+
+
 
 function loadCreatedCoupons(array,callback)
 {
@@ -106,6 +111,11 @@ PagesController.allCoupons = function() {
 
 }
 PagesController.main = function() {
+    console.log('--------');
+console.log(this);
+console.log(this.express)
+
+    console.log('--------');
     if(!this.req.user)
     {
 

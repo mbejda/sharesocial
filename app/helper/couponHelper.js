@@ -105,15 +105,15 @@ newCoupon.save(function(e){
 
 if(associate)
 {
-	var q = accountModel.findOne({_id:associate});
+	var q = accountModel.update(
+		{_id:associate},
+		{$addToSet: {merchantCoupons:newCoupon._id}}
+		);
 
 	q.exec(function(e,r){
-		r.merchantCoupons.push(newCoupon._id);
-		r.save(function(e){
-			console.log('coupon pushed')
 			callback(e,newCoupon);
 			return;
-		})
+	
 	})
 }else{
 callback({message:'saved'});
