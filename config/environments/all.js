@@ -26,6 +26,7 @@ var sessionDB = 'mongodb://appfog:079f40455c53f148cee689516ff7e638@alex.mongohq.
 //but I personally use the module 'sessionstore' to handle my sessionStores.
 
 module.exports = function() {
+  var self = this;
   // Warn of version mismatch between global "lcm" binary and local installation
   // of Locomotive.
   if (this.version !== require('locomotive').version) {
@@ -63,7 +64,10 @@ module.exports = function() {
   // middleware is built-in, with additional [third-party](https://github.com/senchalabs/connect/wiki)
   // middleware available as separate modules.
   this.use(poweredBy('Locomotive'));
-  this.use(express.logger());
+
+
+
+  this.use(require('winston'));
 
 
   this.use(express.cookieParser());
@@ -74,7 +78,6 @@ module.exports = function() {
         store: new mongoStore({url:sessionDB, clear_interval:3600})
     }))
 
-    this.use(poweredBy('Locomotive'));
     this.use(express.logger());
     this.use(express.favicon());
     this.use(express.static(__dirname + '/../../public'));

@@ -38,6 +38,7 @@
     "async": "~0.2.9",
     "mongoose-paginate": "~0.1.5",
     "ejs-locals": "~1.0.2",
-    "moment": "~2.4.0"
+    "moment": "~2.4.0",
+    "winston": "~0.7.2"
   }
 }

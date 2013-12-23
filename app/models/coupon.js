@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 var Email = mongoose.SchemaTypes.Email;
 var Account = require('./account');
 var CouponSchema = new Schema({
+	created : {type:Date},
   start_date : {type:String},
   end_date : {type:String},
   promotion : {type:String},
@@ -14,7 +15,6 @@ var CouponSchema = new Schema({
 });
 
 CouponSchema.pre('remove', function (next) {
-
 Account.update( { merchantCoupons: this._id }, { $pull: { merchantCoupons: this._id  }},{ $pull: { sharedCoupons: this._id  } },function(e,r){
 console.log(e)
 	next();

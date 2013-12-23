@@ -84,11 +84,9 @@ CouponsController.create = function()
 
   var data = this.param('data');
   data['uid'] = this.req.user._id;
+  data['created'] =  Math.round(+new Date()/1000);
   var couponH = new couponHelper();
   couponH.addToUser(data['uid']).create(data,function(e,coupon){
-    console.log(e)
-    console.log('created coupon')
-    console.log(coupon)
     self.res.send({response:'success',object:coupon})
   })
 }
