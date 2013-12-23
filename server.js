@@ -1,5 +1,5 @@
 var locomotive = require('locomotive'),
-        env = 'development',
+        env = 'production',
         port = process.env.PORT  || 3000,
         address = '0.0.0.0';
 
