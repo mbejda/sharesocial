@@ -37,12 +37,8 @@
     "connect-session-file": "~1.0.4",
     "async": "~0.2.9",
     "mongoose-paginate": "~0.1.5",
-<<<<<<< HEAD
-    "ejs-locals": "~1.0.2"
-=======
     "ejs-locals": "~1.0.2",
     "moment": "~2.4.0",
     "winston": "~0.7.2"
->>>>>>> ffae09bc8b0a17a6394e98441f5fd1e4231bb4a1
   }
 }
