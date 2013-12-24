@@ -51,15 +51,6 @@ function toJson(inputs)
   return o;
 }
 
-
-
-
-
-
-
-
-
-
 $(document).ready(function(){
 
 var app = {

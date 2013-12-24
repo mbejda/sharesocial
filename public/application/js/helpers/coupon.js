@@ -1,6 +1,7 @@
-define(['jquery','./ajax'],function ($,ajaxHelper) {
+define(['knockout','jquery','./ajax'],function (ko,$,ajaxHelper) {
 
 var couponObject = {
+  test_data : ko.observable(),
   create : function(couponData)
   {
     var ajax = new ajaxHelper();
