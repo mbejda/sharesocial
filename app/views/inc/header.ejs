@@ -29,12 +29,8 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css" />
 
-<script data-main="application/js/config" src="//cdn.jsdelivr.net/requirejs/2.1.9/require.min.js"></script>
 
 
-<script>
-
-</script>
 <script>
 <% if(typeof(user)  !== 'undefined') {%>
 var userArray = <%- JSON.stringify(user) %>
@@ -42,80 +38,10 @@ var userArray = <%- JSON.stringify(user) %>
 <% if(typeof(merchantCoupons)  !== 'undefined') {%>
 var createdCoupons = <%- JSON.stringify(merchantCoupons) %>
 <% } %>
-
-
-
-
 </script>
+<script data-main="application/js/config" src="//cdn.jsdelivr.net/requirejs/2.1.9/require.min.js"></script>
+
 <style>
- #files img { width:150px; height:150px;}
-/* The img default style */
-    .img {
-        display: table; /* so that the it doesn't stretch beyond the images width */
-        margin: 0px auto;
-        margin - top: 10px;
-        margin - bottom: 10px;
-        position: relative;
-        padding: 0px;
-} /* the image */ .img img {
-    vertical - align: bottom; - webkit - border - radius: inherit; - moz - border - radius: inherit; - o - border - radius: inherit;
-    border - radius: inherit;
-} /* the caption by default */ .img.caption {
-    background - color: rgba(0, 0, 0, .5);
-    color: #fff;
-    position: absolute; /* by default we want for the caption to be visibly on top of the image*/
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    padding - top: 10px;
-    width: 100 % ;
-    height: auto;
-    z - index: 9;
-    padding - bottom: 10px; - webkit - transition: all 240ms ease - in -out; - moz - transition: all 240ms ease - in -out; - ms - transition: all 240ms ease - in -out; - o - transition: all 240ms ease - in -out;
-    transition: all 240ms ease - in -out;
-} /* img caption txt */ .img.caption.heading {
-    font - weight: bold;
-    font - size: 1.2em;
-    text - shadow: 0px 1px 1px #000; display: block; margin-bottom: 5px; margin-left: 10px; } .img .caption p{ margin: 0px; margin-bottom: 5px; margin-left: 10px; padding: 0px 5px; font-size: .9em; } .img .caption .footer{ margin-left: 10px; margin-right: 10px; } .img .caption .footer *{ margin-left: 5px; /* to put space between each element in the footer */ }
-
-
-.img.slideUp{ display: block; 
-  width: 250px; height: 200px; overflow: hidden; background: white;
-  float:left;
-}
-.img.slideUp img {
-    width: inherit;
-    height: inherit; - webkit - transition: all 240ms ease - in -out; /* so that img returns to its original state smoothly */ - moz - transition: all 240ms ease - in -out; - ms - transition: all 240ms ease - in -out; - o - transition: all 240ms ease - in -out;
-    transition: all 240ms ease - in -out;
-} /* the caption of the slideUp img */ .img.slideUp.caption {
-    position: relative; /* so that it sits right beneath the image, which we will slide up to reveal the caption*/
-    width: inherit;
-    height: 40 % ; /* replace this with whatever height you choose */
-    display: block;
-    padding - bottom: 20px;
-} /* the slide! */ .img.slideUp: hover img {
-    margin - top: -40 % ; /* make sure this is the same as .img.slideUp .caption 's height */
-    position: relative;
-    vertical - align: top; - webkit - transition: all 240ms ease - in -out; - moz - transition: all 240ms ease - in -out; - ms - transition: all 240ms ease - in -out; - o - transition: all 240ms ease - in -out;
-    transition: all 240ms ease - in -out;
-}
-.coupon {height:300px; overflow:hidden !important;}
-.coupon .name {position:absolute; width:inherit; background-color:white;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-
-  /* IE 5-7 */
-  filter: alpha(opacity=50);
-
-  /* Netscape */
-  -moz-opacity: 0.5;
-
-  /* Safari 1.x */
-  -khtml-opacity: 0.5;
-
-  /* Good browsers */
-  opacity: 0.5;
-}
-.coupon .name a{font-weight:bold; color:black;}
 </style>
   </head>
   <body>
