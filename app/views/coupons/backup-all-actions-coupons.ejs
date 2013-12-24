@@ -1,0 +1,124 @@
+<div class="coupons-container">
+
+<% if(typeof(user)  !== 'undefined') {%>
+    <% include couponForm %>
+<% } %>
+
+</div>
+
+<a href="#" class="btn show-coupon-form block"><i class="fa fa-arrows-v"></i>  Add Coupon</a>
+<!--
+<a href="#" class="btn show-created-coupons block"><i class="fa fa-arrows-v"></i>  Created Coupons</a>
+<a href="#" class="btn show-all-coupons block"><i class="fa fa-arrows-v"></i>  All Coupon</a>
+<a href="#" class="btn show-shared-coupons block"><i class="fa fa-arrows-v"></i>  Shared Coupon</a>
+-->
+<hr/>
+
+<!---ALL COuPONS-->
+<div class="row all-coupons">
+<div class="span12">
+<h4>All Coupons</h4>
+</div>
+
+<ul class="coupons unstyled" data-bind="foreach : {data: coupons.allCoupons(), afterAdd: test,beforeRemove:test2 }">
+<!-- ko if: $data.store_name  -->
+<li class=" slideUp span4 overflow-hidden coupon ">
+<div class="name">
+<a href="#" data-bind="click: $parent.coupons.view"><span data-bind="text:store_name"></span></a>
+</div>
+<!-- ko if: $data.image -->
+<img  style="width:300px; height:300px" data-bind="attr: {src: 'coupons/'+$data.image}" />
+<!-- /ko -->
+<!-- ko ifnot: $data.image -->
+
+
+<img  src="http://carolinastylehairsalon.com/wp-content/themes/carolinastylehairsalon/images/hair-salon-greer-sc-coupon-icon.png"/>
+<!-- /ko -->
+
+<div class="caption">
+
+<a href="#" class="delete-coupon btn btn-inverse" data-bind="click: $parent.coupons.delete">Delete</a>
+<a href="#" class="share-coupon btn btn-inverse" data-bind="click: $parent.coupons.share">Share</a>
+<a href="#" class="btn btn-inverse" data-bind="click: $parent.coupons.view">View</a>
+
+</div>
+</li>
+<!-- /ko -->
+
+
+</ul>
+</div>
+<!-- END aLL COUPONS-->
+<!-- START SHARED COUPONS-->
+
+<div class="row shared-coupons">
+<div class="span12">
+<h4>Your Shared Coupons</h4>
+</div>
+
+<ul class="coupons unstyled" data-bind="foreach : {data: coupons.sharedCoupons(), afterAdd: test,beforeRemove:test2 }">
+<!-- ko if: $data.store_name  -->
+<li class=" slideUp span4 overflow-hidden coupon ">
+<div class="name">
+<a href="#" data-bind="click: $parent.coupons.view"><span data-bind="text:store_name"></span></a>
+</div>
+<!-- ko if: $data.image -->
+<img  style="width:300px; height:300px" data-bind="attr: {src: 'coupons/'+$data.image}" />
+<!-- /ko -->
+<!-- ko ifnot: $data.image -->
+<img  src="http://carolinastylehairsalon.com/wp-content/themes/carolinastylehairsalon/images/hair-salon-greer-sc-coupon-icon.png"/>
+<!-- /ko -->
+<div class="caption">
+<a href="#" class="delete-coupon btn btn-inverse" data-bind="click: $parent.coupons.delete">Delete</a>
+<a href="#" class="share-coupon btn btn-inverse" data-bind="click: $parent.coupons.share">Share</a>
+<a href="#" class="btn btn-inverse" data-bind="click: $parent.coupons.view">View</a>
+</div>
+</li>
+<!-- /ko -->
+</ul>
+</div>
+<!-- END SHARED COUPONS-->
+
+<!-- START CREATED COUPONS-->
+<div class="row created-coupons">
+    <div class="span12">
+        <h4>Your Created Coupons</h4>
+    </div>
+    <ul class="coupons unstyled" data-bind="foreach : {data: coupons.createdCoupons(), afterAdd: test,beforeRemove:test2 }">
+        <!-- ko if: $data.store_name  -->
+        <li class=" slideUp span4 overflow-hidden coupon">
+            <div class="name">
+                <a href="#" data-bind="click: $parent.coupons.view"><span data-bind="text:store_name"></span></a>
+            </div>
+            <!-- ko if: $data.image -->
+                <img  style="width:300px; height:300px" data-bind="attr: {src: 'coupons/'+$data.image}" />
+            <!-- /ko -->
+            <!-- ko ifnot: $data.image -->
+                <img  src="http://carolinastylehairsalon.com/wp-content/themes/carolinastylehairsalon/images/hair-salon-greer-sc-coupon-icon.png"/>
+            <!-- /ko -->
+            <div class="caption">
+                <a href="#" class="delete-coupon btn btn-inverse" data-bind="click: $parent.coupons.delete">Delete</a>
+                <a href="#" class="share-coupon btn btn-inverse" data-bind="click: $parent.coupons.share">Share</a>
+                <a href="#" class="btn btn-inverse" data-bind="click: $parent.coupons.view">View</a>
+            </div>
+        </li>
+      <!-- /ko -->
+    </ul>
+</div>
+
+<div id="files" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Image Selector</h3>
+    </div>
+    <div class="modal-body">
+        <select class="imagepicker" data-bind="foreach : images">
+            <option data-bind="attr :{'data-img-src': 'coupons/'+$data, value : $data}"></option>
+        </select>
+    </div>
+    <div class="modal-footer">
+        <input id="fileBox" type="file" />
+        <button class="btn delete-coupon-image"> Delete </button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</div>

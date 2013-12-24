@@ -11,7 +11,8 @@ var sioCookieParser = express.cookieParser('cat');
 
 PublicController.layout = function()
 {
-    this.render('pages/layout');
+    this.body = '';
+    this.render('layout/main');
 }
 
 PublicController.index = function()

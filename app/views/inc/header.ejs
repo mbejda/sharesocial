@@ -1,13 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <meta charset="utf-8">
+    <title>ShareSocial</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" />
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+
 
     <link rel="stylesheet" href="/vendors/image-picker/image-picker.css" />
         <link rel="stylesheet" href="/vendors/datepicker/css/datepicker.css" />
         <link rel="stylesheet" href="/vendors/mosaic/css/mosaic.css" />
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css" />
+
 <script data-main="application/js/config" src="//cdn.jsdelivr.net/requirejs/2.1.9/require.min.js"></script>
 
 
@@ -98,3 +119,33 @@ var createdCoupons = <%- JSON.stringify(merchantCoupons) %>
 </style>
   </head>
   <body>
+
+    <div class="topbar">
+
+          <div class="fill header">
+              <div class="container-fluid">
+                  <a class="brand" href="#">Share Social</a>
+                  <ul class="nav">
+                      <li class="active"><a href="#">Home</a></li>
+                      <li><a href="#about">About</a></li>
+                      <li><a href="#contact">Contact</a></li>
+                       <% if(typeof(user)  == 'undefined') {%>
+                      <li><a href="/login">Login With Facebook</a></li>
+                      <% } %>
+                  </ul>
+
+                  <div data-bind="text: user().name" class="pull-right fb-name"></div>
+
+                  <div class="scissors"></div>
+              </div>
+          </div>
+<!--
+          <div class="subheader">
+              <div class="page-curl"></div>
+          </div>
+-->
+      </div>
+      <!-- start: container -->
+      <div class="container-fluid">
+          <div class="row-fluid">
+            <div class="content">
