@@ -28,12 +28,14 @@ self.res.send(JSON.stringify(u))
 }
 ApiController.all = function()
 {
+
 		var self = this;
 
 	var cc = new couponHelper();
 
-cc.limit(100).offset(0).find(function(e,u){
-self.res.send(JSON.stringify(u))
+console.log(self.param('offset'))
+cc.limit(10).offset(self.param('offset')).find(function(e,u){
+self.res.jsonp({response:u});
 });
 }
 
