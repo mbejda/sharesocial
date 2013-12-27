@@ -24,6 +24,7 @@ var couponModule = function()
 	var offset = 0;
 	var where = {};
 	var associate = null;
+	var uid = '';
 
 self.addToUser  =function(uid)
 {
@@ -63,6 +64,12 @@ self.share = function(cid)
 {
 
 }
+self.setUID = function(u)
+{
+	console.log('----seting '+uid)
+	uid = u;
+	return this;
+}
 self.find =function(cb)
 {
 
@@ -72,15 +79,40 @@ cb(err,results)
 });
 return this;
 }
+self.populateSharedCoupons =function(cb)
+{
+
+console.log('----'+uid)
+var q = accountModel.findOne({_id:uid}).populate('sharedCoupons')
+q.exec(function(err, results) {
+	console.log(err)
+cb(err,results)
+});
+return this;
+}
+self.populateCreatedCoupons =function(cb)
+{
+
+console.log('----'+uid)
+var q = accountModel.findOne({_id:uid}).populate('merchantCoupons')
+q.exec(function(err, results) {
+	console.log(err)
+cb(err,results)
+});
+return this;
+}
+
+
 self.findOne =function(cb)
 {
 
-var q = couponModel.findOne(where).limit(limit).skip(offset);
+var q = couponModel.findOne({_uid:uid}).limit(limit).skip(offset);
 q.exec(function(err, results) {
 cb(err,results)
 });
 return this;
 }
+
 
 
 	self.set = function(param,val)
@@ -147,6 +179,7 @@ callback();
 
 
 return {
+	uid : self.setUID,
 	set : self.set,
 	create : self.create,
 	remove : self.remove,
@@ -158,7 +191,9 @@ return {
 	addToUser : self.addToUser,
 	loadUserCoupons : self.findArray,
 	loadSharedCoupons : self.findArray,
-	loadAllCoupons : self.find
+	loadAllCoupons : self.find,
+	populateSharedCoupons : self.populateSharedCoupons,
+	populateCreatedCoupons : self.populateCreatedCoupons
 
 }
 }

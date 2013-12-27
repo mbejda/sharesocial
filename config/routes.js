@@ -20,6 +20,8 @@ module.exports = function routes() {
     this.match('coupons/:id/delete', 'coupons#delete', { via: ['get','post','put'] });
     this.match('api', 'api#index', { via: ['get','post','put'] });
     this.match('api/all', 'api#all', { via: ['get','post','put'] });
+    this.match('api/shared', 'api#shared', { via: ['get','post','put'] });
+    this.match('api/created', 'api#created', { via: ['get','post','put'] });
 
 
 

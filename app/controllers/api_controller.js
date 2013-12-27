@@ -1,8 +1,8 @@
 var locomotive = require('locomotive')
-  , Controller = locomotive.Controller;
-var ApiController = new Controller();
-var Account = require('../models/account');
-var couponHelper = require('../helper/couponHelper');
+  , Controller = locomotive.Controller
+  , ApiController = new Controller()
+  , Account = require('../models/account')
+  , couponHelper = require('../helper/couponHelper');
 
 
 ApiController.index = function()
@@ -26,15 +26,38 @@ self.res.send(JSON.stringify(u))
 });
 }
 }
-ApiController.all = function()
+
+
+ApiController.created = function()
 {
 
-		var self = this;
+var self = this;
+var uid = self.param('uid');
+var limit = self.param('limit') || 10;
+var offset = self.param('offset') || 0;
+var cc = new couponHelper();
+cc.limit(limit).offset(offset).uid(uid).populateCreatedCoupons(function(e,u){
+self.res.jsonp({response:u});
+});
+}
+ApiController.shared = function()
+{
+var self = this;
+var uid = self.param('uid');
+var limit = self.param('limit') || 10;
+var offset = self.param('offset') || 0;
+var cc = new couponHelper();
+cc.limit(limit).offset(offset).uid(uid).populateSharedCoupons(function(e,u){
+self.res.jsonp({response:u});
+});
+}
 
-	var cc = new couponHelper();
-
-console.log(self.param('offset'))
-cc.limit(10).offset(self.param('offset')).find(function(e,u){
+ApiController.all = function()
+{
+var self = this;
+var cc = new couponHelper();
+var limit = self.param('limit') || 10;
+cc.limit(limit).offset(self.param('offset')).find(function(e,u){
 self.res.jsonp({response:u});
 });
 }
