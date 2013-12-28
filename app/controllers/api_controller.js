@@ -57,9 +57,63 @@ ApiController.all = function()
 var self = this;
 var cc = new couponHelper();
 var limit = self.param('limit') || 10;
-cc.limit(limit).offset(self.param('offset')).find(function(e,u){
+var offset = self.param('offset') || 0;
+cc.limit(limit).offset(offset).find(function(e,u){
 self.res.jsonp({response:u});
 });
 }
+
+
+ApiController.create = function()
+{
+  var self = this;
+  var data = this.param('data');
+  var uid = this.param('uid');
+  data['uid'] = this.req.user._id;
+  data['created'] =  Math.round(+new Date()/1000);
+  var couponH = new couponHelper();
+  couponH.addToUser(data['uid']).create(data,function(e,coupon){
+  	if(e)
+  	{
+  		   self.res.send({response:'error',message:e})
+  		    return;
+  	}
+    self.res.send({response:'success',message:coupon})
+  })
+}
+
+
+ApiController.post = function()
+{
+var self = this;
+var cc = new couponHelper();
+var limit = self.param('cid');
+var offset = self.param('uid');
+}
+ApiController.delete = function()
+{
+var self = this;
+  var cid = this.param('cid');
+  var uid = this.param('uid');
+  var couponH = new couponHelper();
+  couponH.where({'_id':cid}).remove(function(e,r){
+if(e)
+{
+      self.res.send({response:'error',message:e})
+return;
+}
+    self.res.send({response:'success',message:r})
+
+
+
+  })
+
+
+
+}
+
+
+
+
 
 module.exports = ApiController;

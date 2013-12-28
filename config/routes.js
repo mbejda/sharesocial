@@ -19,18 +19,24 @@ module.exports = function routes() {
 
     this.match('coupons/:id/delete', 'coupons#delete', { via: ['get','post','put'] });
     this.match('api', 'api#index', { via: ['get','post','put'] });
+    
     this.match('api/all', 'api#all', { via: ['get','post','put'] });
     this.match('api/shared', 'api#shared', { via: ['get','post','put'] });
     this.match('api/created', 'api#created', { via: ['get','post','put'] });
+    this.match('api/create', 'api#create', { via: ['post'] });
+    this.match('api/delete', 'api#delete', { via: ['post'] });
 
 
 
     this.match('register', 'account#register', { via: 'post' });
     this.match('account', 'account#index');
+    this.match('builder', 'pages#builder');
+    this.match('created', 'pages#created');
 
     this.match('logout', 'account#logout');
     this.match('upload', 'pages#upload',{ via: ['get','post','put'] });
     this.match('image/delete', 'pages#delete',{ via: ['get','post','put'] });
+    this.match('mobile', 'pages#mobile',{ via: ['get','post','put'] });
 
     this.match('login',   passport.authenticate('facebook', {  scope: ['publish_actions','publish_stream','email','user_status', 'user_checkins'] }));
     this.match('auth/facebook/callback',   passport.authenticate('facebook', {  scope: ['publish_actions','publish_stream','email','user_status', 'user_checkins'],successRedirect:'/' }));

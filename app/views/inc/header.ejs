@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:fb="http://ogp.me/ns/fb#">
   <head>
     <meta charset="utf-8">
     <title>ShareSocial</title>
@@ -27,7 +27,6 @@
         <link rel="stylesheet" href="/vendors/datepicker/css/datepicker.css" />
         <link rel="stylesheet" href="/vendors/mosaic/css/mosaic.css" />
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css" />
 
 
 
@@ -44,21 +43,27 @@ var createdCoupons = <%- JSON.stringify(merchantCoupons) %>
 <style>
 </style>
   </head>
-  <body>
 
     <div class="topbar">
 
           <div class="fill header">
-              <div class="container-fluid">
-                  <a class="brand" href="#">Share Social</a>
+              <div class="container canvas">
+                  <a class="brand" href="/">Share Social</a>
                   <ul class="nav">
-                      <li class="active"><a href="#">Home</a></li>
+                      <li class=""><a href="/">Home</a></li>
                       <li><a href="#about">About</a></li>
                       <li><a href="#contact">Contact</a></li>
                        <% if(typeof(user)  == 'undefined') {%>
                       <li><a href="/login">Login With Facebook</a></li>
-                      <% } %>
+                         <% } %>
+                       <% if(typeof(user)  != 'undefined') {%>
+                                       <li><a href="/builder">Builder</a></li>
+                                       <li><a href="/created">Created</a></li>
+
+                 <% } %>
                   </ul>
+
+
 
                   <div data-bind="text: user().name" class="pull-right fb-name"></div>
 
@@ -72,6 +77,4 @@ var createdCoupons = <%- JSON.stringify(merchantCoupons) %>
 -->
       </div>
       <!-- start: container -->
-      <div class="container-fluid">
-          <div class="row-fluid">
             <div class="content">

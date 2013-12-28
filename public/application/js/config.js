@@ -2,13 +2,24 @@ require.config({
     "packages": ["models","helpers"],
     paths : {
       bootstrap : '//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min',
+      modals:'/vendors/bootstrap/js/bootstrap-modal',
     	jquery : '//cdn.jsdelivr.net/jquery/2.0.3/jquery-2.0.3.min',
     	knockout : '//cdn.jsdelivr.net/knockout/3.0.0beta/knockout',
     	imagepicker:'/vendors/image-picker/image-picker',
-    	datepicker:'/vendors/datepicker/js/bootstrap-datepicker'
+    	datepicker:'/vendors/datepicker/js/bootstrap-datepicker',
+      qrcode:'/vendors/qrcode/js/jquery.qrcode',
+      quickFlip:'/vendors/flip/js/jquery.quickflip.min'
 
     },
     shim: {
+           'quickFlip': {
+    deps: ['jquery'],
+            exports: 'quickFlip'
+      },
+      'qrcode': {
+    deps: ['jquery'],
+            exports: 'qrcode'
+      },
         'imagepicker': {
             deps: ['jquery'],
             exports: 'imagepicker'
@@ -24,7 +35,7 @@ require.config({
     }
 });
 
-require(["jquery","knockout","models","helpers","imagepicker","datepicker","bootstrap"], function ($,ko,models,helpers,imagepicker,datepicker,bootstrap) {
+require(["jquery","knockout","models","helpers","imagepicker","datepicker","bootstrap","qrcode","quickFlip"], function ($,ko,models,helpers,imagepicker,datepicker,bootstrap,qrcode,quickFlip) {
 
 
 
@@ -51,11 +62,59 @@ function toJson(inputs)
   return o;
 }
 
-$(document).ready(function(){
+$(document).ready(function()
+{
+
+$(".launch-image-gallery").on('click',function(){
+  $('#imageGallery').modal('toggle')
+})
+
 
 var app = {
   user : ko.observable({name:''}),
   coupons : new models.couponModel(),
+   deleteCoupon : function(data,event)
+   {
+        var self = this;
+ 
+self.e = event.target;
+
+$.post('/api/delete',{cid:data['_id'], uid:window.userArray['_id']},function(r){
+if(r.response == "success")
+{
+  $(self.e).parents('.coupon').fadeTo( "slow" , 0.5, function() {
+  });
+}
+
+});
+   },
+  shareCoupon : function(data,event)
+  {
+    var self = this;
+ 
+self.e = event.target;
+
+
+
+
+
+
+var ajax = couponObject.share(data._id);
+ajax.success(function(results){
+ if(results.type == "success")
+ {
+      var coupon = $(self.e).parents('.coupon');
+     coupon.find('img').fadeOut('slow',function(){
+      $(this).remove();
+     });
+    $(self.e).parents('.coupon').find('.quickflip-wrapper').quickFlipper(); 
+    $(coupon).find('.qrcode').qrcode({width: 240,height: 240,text:results.message});
+
+ }
+
+})
+
+  },
   images : ko.observableArray([]),
    test :function(elem) 
    { if (elem.nodeType === 1) {
@@ -67,9 +126,15 @@ var app = {
     $(elem).fadeOut();
   }
 }
-
-
 }
+
+
+$.get('/api/all',{},function(results)
+{
+  console.log('loaded')
+  app.coupons.allCoupons(results.response);
+
+})
 
 
 
@@ -154,49 +219,41 @@ $.post('image/delete',{data: {object:'image',value:image}},function(response){
 
 $('.add-coupon').on('click',function(e){
   e.preventDefault();
-var self = $(this).find('i')
-  self.removeClass('fa-plus-circle');
-  $(self).addClass('fa-refresh fa-spin')
-
 
   var arr = $(this).parents('.coupons-container').find('input,textarea');
 var j = toJson(arr);
-var ajaxObject = couponObject.create(j);
-ajaxObject.always(function(){
-  $(self).removeClass('fa-refresh fa-spin')
-
-  $(self).addClass('fa-plus-circle')
-return false;
-  
-})
-ajaxObject.success(function(ret)
+$.post('/api/create',{uid:window.userArray['_id'],data:j},function(response)
 {
-  app.coupons.createdCoupons.unshift(ret.object)
-  $('.coupons .coupon').hover(function(){ $(this).find('img:first').animate({marginTop: '-10%'}, 50); }, function(){ $(this).find('img:first').animate({marginTop: '0'}, 150); });
-
-
+  console.log(response)
+  if(response.type == "success")
+  {
+  app.coupons.createdCoupons.unshift(response.message)
+  }
+});
 });
 
 
-});
 
 function bindCoupons()
 {
-$('.coupons .coupon').hover(function(){ $(this).find('img:first').animate({marginTop: '-10%'}, 50); }, function(){ $(this).find('img:first').animate({marginTop: '0'}, 150); });
 
 }
 
 function loadCreatedCoupons()
 {
-var ajaxObject = couponObject.get({action:'loadCreatedCoupons'});
-ajaxObject.success(function(ret)
+  var arr = $(this).parents('.coupons-container').find('input,textarea');
+var j = toJson(arr);
+$.get('/api/created',{uid:window.userArray['_id'],data:j},function(obj)
 {
+  console.log(obj.response.merchantCoupons)
 
-app.coupons.createdCoupons(ret.results)
-bindCoupons();
 
-})
+  app.coupons.createdCoupons(obj.response.merchantCoupons)
+  
+});
 }
+
+
 function loadAllCoupons()
 {
 var ajaxObject = couponObject.get({action:'loadAllCoupons'});
@@ -204,7 +261,6 @@ ajaxObject.success(function(ret)
 {
 
 app.coupons.allCoupons(ret.results)
-bindCoupons();
 
 })
 }
@@ -214,7 +270,6 @@ var ajaxObject = couponObject.get({action:'loadSharedCoupons'});
 ajaxObject.success(function(ret)
 {
 app.coupons.sharedCoupons(ret.results)
-bindCoupons();
 
 })
 }
@@ -258,12 +313,7 @@ $(".show-shared-coupons").on('click',function(){
 
 
 
-  $('.coupons-container').hide();
-$(".show-coupon-form").on('click',function(e){
-  e.preventDefault();
-  $('.coupons-container').slideToggle();
-  return false;
-})
+
 
 })
 

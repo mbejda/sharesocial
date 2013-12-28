@@ -105,7 +105,10 @@ return this;
 
 self.findOne =function(cb)
 {
-
+if(uid)
+{
+	
+}
 var q = couponModel.findOne({_uid:uid}).limit(limit).skip(offset);
 q.exec(function(err, results) {
 cb(err,results)

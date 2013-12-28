@@ -6,6 +6,7 @@ var passport = require('passport');
 var FB = require('../helper/facebookHelper');
 var couponHelper = require('../helper/couponHelper');
 var userHelper = require('../helper/userHelper');
+var couponModel = require('../models/coupon');
 
 var _ = function(v)
 {
@@ -32,14 +33,29 @@ CouponsController.share = function() {
   var couponH = new couponHelper();
 
 
-  couponH.where({'_id': data.cid}).findOne(function(e,r){
-  FBHelper.setText(r.link).postFeed(function(e,r){
+  couponModel.findOne({'_id': data.cid},function(e,r){
+    console.log(e)
+    console.log(r)
+    if(e)
+    {
+      console.log(e)
+self.res.send({type:'error',message:e})
+return;
+    }
+
+var message = r.link || r.promotion;
+  FBHelper.setText(message).postFeed(function(e,r){
+    if(e)
+    {
+self.res.send({type:'error',message:e})
+return;
+    }
     var user = self.user.model();
     user.sharedCoupons.push(data.cid);
   user.save(function(e)
     {
 console.log(e)
-self.res.send({message:'success',coupon:data.cid})
+self.res.send({type:'success',message:message})
 
     });
 
@@ -80,15 +96,7 @@ this.redirect('/');
 
 CouponsController.create = function() 
 {
-  var self = this;
 
-  var data = this.param('data');
-  data['uid'] = this.req.user._id;
-  data['created'] =  Math.round(+new Date()/1000);
-  var couponH = new couponHelper();
-  couponH.addToUser(data['uid']).create(data,function(e,coupon){
-    self.res.send({response:'success',object:coupon})
-  })
 }
 CouponsController.get = function() {
   var self = this;
@@ -145,16 +153,7 @@ CouponsController.update = function() {
   this.title = 'Account'
   this.render();
 }
-CouponsController.delete = function() {
-	var data = this.param('data')
-  var cid = data.cid;
-  var couponH = new couponHelper();
-  couponH.where({'_id':cid}).remove(function(){
-    console.log('removed')
-  })
 
-
-}
 CouponsController.before('*', function(next) {
   var self = this;
   var u = self.req.user;

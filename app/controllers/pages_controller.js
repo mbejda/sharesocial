@@ -31,6 +31,61 @@ function loadCreatedCoupons(array,callback)
     })
 
 }
+PagesController.builder = function() 
+{
+
+
+     var uid = this.req.user._id;
+    var self = this;
+
+
+
+    self.coupons = [];
+    if(self.req.user)
+    {
+        var user = self.req.user;
+        self.user = user;
+
+       self.render('pages/builder');
+
+    }
+
+}
+PagesController.mobile = function() 
+{
+
+
+    var self = this;
+
+
+
+       self.render('pages/mobile');
+
+    
+
+}
+PagesController.created = function() 
+{
+
+
+     var uid = this.req.user._id;
+    var self = this;
+
+
+
+    self.coupons = [];
+    if(self.req.user)
+    {
+        var user = self.req.user;
+        self.user = user;
+
+       self.render('pages/created');
+
+    }
+
+}
+
+
 PagesController.delete = function() {
     var self= this;
     var data = this.param('data');
@@ -57,6 +112,7 @@ PagesController.delete = function() {
 
 
 }
+
 PagesController.upload = function() {
     var self = this;
     var root = this.req.files;

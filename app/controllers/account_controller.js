@@ -91,6 +91,7 @@ AccountController.login = function()
 {
 
 }
+
 AccountController.facebook = function()
 {
   this.title = 'index'

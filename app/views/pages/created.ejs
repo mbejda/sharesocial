@@ -13,38 +13,14 @@
     </div>
 </div>
 
-<hr/>
-<div class="container canvas">
-<div class="row">
-  <div class="span-one-third">
-          <h5 class="tab">Free Coupons</h5>
-          <p>Fbootstrapp includes a 520px grid perfectly suited to create fanpage tabs.</p>
-          <p><a class="btn" href="#grid-system">View details »</a></p>
-    
-  </div>
-  <div class="span-one-third">
-          <h5 class="tab">Free Exposure</h5>
-          <p>Fbootstrapp includes a 520px grid perfectly suited to create fanpage tabs.</p>
-          <p><a class="btn" href="#grid-system">View details »</a></p>
-  </div>
-  <div class="span-one-third">
-          <h5 class="tab">Free Signup </h5>
-          <p>Fbootstrapp includes a 520px grid perfectly suited to create fanpage tabs.</p>
-          <p><a class="btn" href="#grid-system">View details »</a></p>
-  </div>
-</div>
-</div>
-
 
 <hr />
 <div class="container canvas">
 
-<div class="row coupons" data-bind="foreach: coupons.allCoupons()">
+<div class="row coupons" data-bind="foreach: coupons.createdCoupons()">
     <div class="span-one-third coupon">
-        <h5 class="tab" data-bind="text: $data.store_name">Free Coupons
-
-        </h5>
-  
+        <h5 class="tab" data-bind="text: $data.store_name">Free Coupons</h5>
+   
     <div class="quickflip-wrapper" style="width:240px; height:240px;">
 <div>
 
@@ -74,7 +50,10 @@
 Share »
 
 </a>
+<a href="#" class="btn" data-bind="click: $parent.deleteCoupon.bind($data)">
+Delete »
 
+</a>
         </div>
     </div>
 

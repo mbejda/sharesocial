@@ -1,0 +1,53 @@
+<% include ../inc/header.ejs %>
+
+<div id="container-scene">
+    <div id="market-scene"></div>
+
+    <div id="clouds">
+        <div class="cloud x1"></div>
+        <!-- Time for multiple clouds to dance around -->
+        <div class="cloud x2"></div>
+        <div class="cloud x3"></div>
+        <div class="cloud x4"></div>
+        <div class="cloud x5"></div>
+    </div>
+</div>
+
+
+
+<hr />
+
+<div class="container canvas">
+<div class="row coupons-container">
+<% include ./couponForm.ejs %>
+</div>
+
+
+</div>
+</div>
+
+
+<div id="imageGallery" class="modal hide fade" style="display: block;">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Image Selector</h3>
+  </div>
+  <div class="modal-body">
+  <select class="imagepicker" data-bind="foreach : images">
+    
+    <option data-bind="attr :{'data-img-src': 'coupons/'+$data, value : $data}"></option>
+  </select>
+  </div>
+  <div class="modal-footer">
+
+    <input id="fileBox" type="file" />
+
+    <button class="btn delete-coupon-image"> Delete </button>
+
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+
+</div>
+
+<% include ../inc/footer.ejs %>

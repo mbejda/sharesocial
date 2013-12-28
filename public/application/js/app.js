@@ -142,7 +142,13 @@ loadAllCoupons();
 loadSharedCoupons();
 
 
-
+function bindShareCoupons()
+{
+$(".share-coupon").on('click',function(){
+  var data = ko.dataFor(this);
+  console.log(data)
+})
+}
 
 
 
