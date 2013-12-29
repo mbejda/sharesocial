@@ -13,8 +13,8 @@ var CouponSchema = new Schema({
   zip : {type:Number}, 
   city : {type:String},
   phone : {type:String},   
-  image : {type:String}
-
+  image : {type:String},
+  cusine : {type:String}
 });
 
 CouponSchema.pre('remove', function (next) {

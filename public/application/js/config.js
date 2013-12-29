@@ -219,15 +219,32 @@ $.post('image/delete',{data: {object:'image',value:image}},function(response){
 
 $('.add-coupon').on('click',function(e)
 {
+$('.coupons-container').siblings().removeClass('error')
+
   $('.alert-message ').remove();
   var self = $(this);
   e.preventDefault();
 
-  var arr = $(this).parents('.coupons-container').find('input,textarea');
+  var arr = $(this).parents('.coupons-container form table').find('input,textarea,select');
+  console.log(arr)
+$(arr).each(function(k,v){
+  var self = $(this);
+  console.log(self.val());
+  if(self.val() == '')
+  {
+    self.addClass('error')
+    self.parent().addClass('error clearfix');
+  }else{
+     self.removeClass('error')
+    self.parent().removeClass('error clearfix');
+    console.log('GOOD')
+  }
+})
 var j = toJson(arr);
+
+return;
 $.post('/api/create',{uid:window.userArray['_id'],data:j},function(results)
 {
-  console.log(results)
   if(results.response == "success")
   {
 

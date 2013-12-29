@@ -13,7 +13,7 @@
 <h3>Create A Coupon</h3>
 
 <!----START STORE NAME-->
-<div class="">
+<form class="">
 <table>
 <tr>
 <td><span>Company Name </span></td><td> <input type="text" class='span3' name="company_name"/></td>
@@ -22,7 +22,7 @@
 <td><span>City </span>   </td><td><input type="text" class='span3' name="city"/></td>
 </tr>
 <tr>
-<td><span>Zip</span> </td><td><input type="text" class='span3' name="zip"/> </td>
+<td><span>Zip</span> </td><td><input type="text" class='span3' name="zip"/></td>
 </tr>
 <tr>
 <td><span>Address</span> </td><td><input type="text" class='span3' name="address"/> </td>
@@ -31,13 +31,33 @@
 <td><span>Phone</span> </td><td><input type="text" class='span3' name="phone"/> </td>
 </tr>
 <tr>
+<td>
+Cusine
+</td>
+<td>
+<select class="medium" name="cuisine">
+<option value="french">French</option>
+<option value="italian">Italian</option>
+<option value="chinese">Chinese</option>
+<option value="indian">Indian</option>
+<option value="thai">Thai</option>
+<option value="mexican">Mexican</option>
+<option value="japanese">Japanese</option>
+<option value="spanish">Spanish</option>
+<option value="greek">Greek</option>
+<option value=""></option>
+</select>
+</td>
+</tr>
+
+<tr>
 <td><span>Promotion Text</span> </td><td><input type="text" class='span3' name="promotion"/> </td>
 </tr>
 <tr>
 <td><a href="#" class='btn add-coupon'><i class="fa fa-plus-circle"></i> Add</a></td>
 </tr>
 </table>
-</div>
+</form>
 </div>
 
 <input type="hidden" class="coupon-image" name="image"/>
