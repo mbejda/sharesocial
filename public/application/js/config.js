@@ -226,10 +226,8 @@ $('.coupons-container').siblings().removeClass('error')
   e.preventDefault();
 
   var arr = $(this).parents('.coupons-container form table').find('input,textarea,select');
-  console.log(arr)
 $(arr).each(function(k,v){
   var self = $(this);
-  console.log(self.val());
   if(self.val() == '')
   {
     self.addClass('error')
@@ -237,12 +235,9 @@ $(arr).each(function(k,v){
   }else{
      self.removeClass('error')
     self.parent().removeClass('error clearfix');
-    console.log('GOOD')
   }
 })
 var j = toJson(arr);
-
-return;
 $.post('/api/create',{uid:window.userArray['_id'],data:j},function(results)
 {
   if(results.response == "success")
