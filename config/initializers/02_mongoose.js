@@ -2,16 +2,9 @@ module.exports = function()
 {
 var mongoose = require('mongoose');
 
-console.log('Stage Environment '+process.env.NODE_ENV)
-  switch (process.env.NODE_ENV) {
-    case 'development':
       mongoose.connect('mongodb://127.0.0.1:27017/sharesocial/accounts');
 
-      break;
-    case 'production':
-      mongoose.connect('mongodb://appfog:079f40455c53f148cee689516ff7e638@alex.mongohq.com:10012/sharesocial_milo/sharesocial');
-      break;
-  };
+
   var mongooseTypes = require("mongoose-types");
 mongooseTypes.loadTypes(mongoose);
 

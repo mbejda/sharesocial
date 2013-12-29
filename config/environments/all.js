@@ -8,17 +8,9 @@ var mongoStore = require('connect-mongodb');
 
 var connect = require('connect');
 var mongoStore = require('connect-mongo')(express);
-if(process.env.NODE_ENV == 'production')
-{
-var sessionDB = 'mongodb://appfog:079f40455c53f148cee689516ff7e638@alex.mongohq.com:10012/sharesocial_milo/sessions';
-  console.log('HERE '+process.env.NODE_ENV);
-}else{
- var sessionDB= 'mongodb://127.0.0.1:27017/sharesocial/sessions'; 
-  console.log('HERE '+process.env.NODE_ENV);
-}
 
 
-
+var sessionDB= 'mongodb://127.0.0.1:27017/sharesocial/sessions'; 
 
 
 //Setup cookie and session handlers
