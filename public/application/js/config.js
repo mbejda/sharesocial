@@ -222,6 +222,7 @@ $('.add-coupon').on('click',function(e)
 $('.coupons-container').siblings().removeClass('error')
 
   $('.alert-message ').remove();
+
   var self = $(this);
   e.preventDefault();
 
@@ -237,6 +238,14 @@ $(arr).each(function(k,v){
     self.parent().removeClass('error clearfix');
   }
 })
+if($('.coupons-container form table .error').length > 0)
+{
+    var alert = $('<div class="alert-message error"><p><strong>Error!</strong> Please do not leave out information</p></div>');
+
+ $('.alert').append(alert); 
+
+  return;
+}
 var j = toJson(arr);
 $.post('/api/create',{uid:window.userArray['_id'],data:j},function(results)
 {
