@@ -217,17 +217,34 @@ $.post('image/delete',{data: {object:'image',value:image}},function(response){
 })
 
 
-$('.add-coupon').on('click',function(e){
+$('.add-coupon').on('click',function(e)
+{
+  $('.alert-message ').remove();
+  var self = $(this);
   e.preventDefault();
 
   var arr = $(this).parents('.coupons-container').find('input,textarea');
 var j = toJson(arr);
-$.post('/api/create',{uid:window.userArray['_id'],data:j},function(response)
+$.post('/api/create',{uid:window.userArray['_id'],data:j},function(results)
 {
-  console.log(response)
-  if(response.type == "success")
+  console.log(results)
+  if(results.response == "success")
   {
-  app.coupons.createdCoupons.unshift(response.message)
+
+
+var alert = $('<div class="alert-message success"><p><strong>Success!</strong> Coupon has been created</p></div>');
+
+ $('.alert').append(alert);
+
+
+
+
+  self.removeClass('add-coupon');
+  self.addClass('disabled');
+  }else{
+  var alert = $('<div class="alert-message error"><p><strong>Error!</strong> Error has occured</p></div>');
+
+ $('.alert').append(alert); 
   }
 });
 });

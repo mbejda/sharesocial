@@ -7,9 +7,12 @@ var CouponSchema = new Schema({
   start_date : {type:String},
   end_date : {type:String},
   promotion : {type:String},
-  store_name: { type: String },
+  company_name: { type: String },
   link: { type: String },
   address : {type:String},
+  zip : {type:Number}, 
+  city : {type:String},
+  phone : {type:String},   
   image : {type:String}
 
 });
