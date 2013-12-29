@@ -3,7 +3,7 @@ if(process.env.NODE_ENV)
 {
 	port = 3000;
 }else{
-	port 80;
+	port = 80;
 }
 
 var locomotive = require('locomotive'),
